@@ -15,8 +15,6 @@ connectDB();
 // const allowedOrigins = ['https://mern-auth-frontend-ecru.vercel.app/']
 
 
-app.use(express.json());
-app.use(cookieParser());
 // app.use(cors({ origin: allowedOrigins, credentials: true }));
 app.use(cors({
   origin: "https://mern-auth-frontend-ecru.vercel.app",
@@ -26,6 +24,10 @@ app.options("*", cors({
   origin: "https://mern-auth-frontend-ecru.vercel.app",
   credentials: true,
 }));
+app.use(express.json());
+app.use(cookieParser());
+
+
 
 //Api Endpoints - Routes
 app.get('/', (req, res) => {res.send("Hello From Server")})
