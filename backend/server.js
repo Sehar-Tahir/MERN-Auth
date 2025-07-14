@@ -12,7 +12,7 @@ const port = process.env.PORT || 4000
 connectDB();
 
 app.use(cors({
-  origin: "https://mern-auth-frontend-ecru.vercel.app",
+  origin: process.env.FRONTEND_URL,
   credentials: true,
   methods: ["POST", "GET"]
 }));
