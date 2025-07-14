@@ -20,10 +20,10 @@ app.use(cors({
   origin: "https://mern-auth-frontend-ecru.vercel.app",
   credentials: true,
 }));
-app.options("*", cors({
-  origin: "https://mern-auth-frontend-ecru.vercel.app",
-  credentials: true,
-}));
+// app.options("*", cors({
+//   origin: "https://mern-auth-frontend-ecru.vercel.app",
+//   credentials: true,
+// }));
 app.use(express.json());
 app.use(cookieParser());
 
