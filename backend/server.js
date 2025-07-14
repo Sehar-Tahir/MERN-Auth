@@ -11,30 +11,18 @@ const app = express();
 const port = process.env.PORT || 4000
 connectDB();
 
-// const allowedOrigins = ['http://localhost:5173']
-// const allowedOrigins = ['https://mern-auth-frontend-ecru.vercel.app/']
+app.use(cors({
+  origin: "https://mern-auth-frontend-ecru.vercel.app/",
+  credentials: true,
+  methods: ["POST", "GET"]
+}));
 
-
-app.use(cors({credentials: true }));
-// app.use(cors({ origin: allowedOrigins, credentials: true }));
-// app.use(cors({
-//   origin: "https://mern-auth-frontend-ecru.vercel.app",
-//   credentials: true,
-// }));
-// app.options("*", cors({
-//   origin: "https://mern-auth-frontend-ecru.vercel.app",
-//   credentials: true,
-// }));
 app.use(express.json());
 app.use(cookieParser());
 
 
-
 //Api Endpoints - Routes
-// app.get('/', (req, res) => {res.send("Hello From Server")})
-app.get('/', (req, res) => {
-  res.redirect(process.env.FRONTEND_URL);
-})
+app.get('/', (req, res) => {res.send("Hello From Server")})
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
 
