@@ -21,6 +21,10 @@ app.use(cors({
   origin: "https://mern-auth-frontend-ecru.vercel.app",
   credentials: true,
 }));
+app.options("*", cors({
+  origin: "https://mern-auth-frontend-ecru.vercel.app",
+  credentials: true,
+}));
 
 //Api Endpoints - Routes
 app.get('/', (req, res) => {res.send("Hello From Server")})
