@@ -8,20 +8,23 @@
   ],
   "rewrites": [
     {
-      "src": "/(.*)",
-      "dest": "/server.js"
+      "source": "/(.*)",
+      "destination": "/server.js"
     }
   ],
-  
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "Access-Control-Allow-Origin", "value": "https://mern-auth-frontend-ecru.vercel.app" },
-        { "key": "Access-Control-Allow-Credentials", "value": "true" }
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "https://mern-auth-frontend-ecru.vercel.app"
+        },
+        {
+          "key": "Access-Control-Allow-Credentials",
+          "value": "true"
+        }
       ]
     }
   ]
-
 }
-
