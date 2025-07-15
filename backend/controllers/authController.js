@@ -75,9 +75,13 @@ export const login = async (req, res) => {
 
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
         res.cookie('token', token, {
+            // httpOnly: true,
+            // secure: process.env.NODE_ENV === 'production',
+            // sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+            // maxAge: 7 * 24 * 60 * 60 * 1000
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+            secure: true,
+            sameSite: 'None',
             maxAge: 7 * 24 * 60 * 60 * 1000
         });
 
@@ -231,40 +235,40 @@ export const sendResetOtp = async (req, res) => {
 }
 
 //Reset Password using OTP Function
-export const resetPassword  = async(req, res) => {
+export const resetPassword = async (req, res) => {
 
-      const {email, otp, newPassword} = req.body;
+    const { email, otp, newPassword } = req.body;
 
-      if (!email || !otp || !newPassword) {
-        return res.json({success: false, message: 'Email, OTP, and new password is required'})
-      }
+    if (!email || !otp || !newPassword) {
+        return res.json({ success: false, message: 'Email, OTP, and new password is required' })
+    }
 
-      try {
-        
-        const user = await userModel.findOne({email});
-        if(!user){
-            return res.json({success: false, message: 'User not found'})
+    try {
+
+        const user = await userModel.findOne({ email });
+        if (!user) {
+            return res.json({ success: false, message: 'User not found' })
         }
 
         if (user.resetOtp === '' || user.resetOtp !== otp) {
-            return res.json({success: false, message: 'Invalid OTP'})
+            return res.json({ success: false, message: 'Invalid OTP' })
         }
 
         if (user.resetOtpExpireAt < Date.now()) {
-            return res.json({success: false, message: 'OTP Expired'})
+            return res.json({ success: false, message: 'OTP Expired' })
         }
 
         const hashedPassword = await bcrypt.hash(newPassword, 10);
         user.password = hashedPassword;
-        user.resetOtp= '';
-        user.resetOtpExpireAt=0;
+        user.resetOtp = '';
+        user.resetOtpExpireAt = 0;
 
         await user.save();
 
-        return res.json({success: true, message: 'Password has been reset Successfully'})
+        return res.json({ success: true, message: 'Password has been reset Successfully' })
 
-      } catch (error) {
+    } catch (error) {
         return res.json({ success: false, message: error.message })
-      }
+    }
 
 }
