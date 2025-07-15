@@ -44,7 +44,9 @@ const VerifyEmail = () => {
       const otp = otpArray.join('')
 
       // const { data } = await axios.post(backendUrl + '/api/auth/verify-account', { otp })
-      const { data } = await axios.post(`${backendUrl}/api/auth/verify-account`, { otp })
+      const { data } = await axios.post(`${backendUrl}/api/auth/verify-account`, { otp }, {
+        withCredentials: true
+      })
       if (data.success) {
         toast.success(data.message)
         getUserData()
@@ -81,7 +83,7 @@ const VerifyEmail = () => {
             ))}
           </div>
           <button className="w-full py-3 bg-gradient-to-r from-indigo-500 to-indigo-900 text-white rounded-full">
-             Verify email</button>
+            Verify email</button>
         </form>
       </div>
     </>

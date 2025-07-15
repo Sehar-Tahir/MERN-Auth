@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { assets } from "../assets/assets"
 import React, { useContext, useState } from "react";
-import {AppContent} from '../context/AppContext'
+import { AppContent } from '../context/AppContext'
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -10,7 +10,7 @@ const ResetPassword = () => {
 
   const navigate = useNavigate();
 
-  const {backendUrl} = useContext(AppContent)
+  const { backendUrl } = useContext(AppContent)
 
   axios.defaults.withCredentials = true;
 
@@ -50,9 +50,11 @@ const ResetPassword = () => {
     e.preventDefault();
     try {
       // const {data} = await axios.post(backendUrl + '/api/auth/send-reset-otp', {email})
-      const {data} = await axios.post(`${backendUrl}/api/auth/send-reset-otp`, {email})
+      const { data } = await axios.post(`${backendUrl}/api/auth/send-reset-otp`, { email }, {
+        withCredentials: true
+      })
       data.success ? toast.success(data.message) : toast.error(data.message);
-      data.success &&  setIsEmailSent(true)
+      data.success && setIsEmailSent(true)
     } catch (error) {
       toast.error(error.message);
     }
@@ -60,21 +62,23 @@ const ResetPassword = () => {
 
 
   const onSubmitOTP = async (e) => {
-     e.preventDefault();
-      const otpArray = inputRefs.current.map(e => e.value)
-      setOtp(otpArray.join(''))
-      setIsOtpSubmited(true)
+    e.preventDefault();
+    const otpArray = inputRefs.current.map(e => e.value)
+    setOtp(otpArray.join(''))
+    setIsOtpSubmited(true)
   }
 
   const onSubmitNewPassword = async (e) => {
-     e.preventDefault();
-      try {
-        const {data} = await axios.post(`${backendUrl}/api/auth/reset-password`, {email, otp, newPassword})
+    e.preventDefault();
+    try {
+      const { data } = await axios.post(`${backendUrl}/api/auth/reset-password`, { email, otp, newPassword }, {
+        withCredentials: true
+      })
       data.success ? toast.success(data.message) : toast.error(data.message);
-      data.success &&  navigate('/login')
-      } catch (error) {
-        toast.error(error.message);
-      }
+      data.success && navigate('/login')
+    } catch (error) {
+      toast.error(error.message);
+    }
   }
 
 
@@ -84,7 +88,7 @@ const ResetPassword = () => {
         <img onClick={() => navigate('/')} src={assets.logo} alt="logo" className="absolute left-5 sm:left-20 top-5 w-28 cursor-pointer" />
 
 
-{/* Enter Email for Otp */}
+        {/* Enter Email for Otp */}
         {!isEmailSent &&
           <form onSubmit={onSubmitEmail} className="bg-slate-900 p-8 rounded-lg shaadow-lg w-96 text-sm">
             <h1 className="text-white text-2xl font-semibold text-center mb-4">Reset Password</h1>
@@ -100,7 +104,7 @@ const ResetPassword = () => {
         }
 
 
-{/*Otp input form */}
+        {/*Otp input form */}
         {!isOtpSubmited && isEmailSent &&
           <form onSubmit={onSubmitOTP} className="bg-slate-900 p-8 rounded-lg shaadow-lg w-96 text-sm">
             <h1 className="text-white text-2xl font-semibold text-center mb-4">Reset Password OTP</h1>
@@ -121,7 +125,7 @@ const ResetPassword = () => {
         }
 
 
-{/* New Password */}
+        {/* New Password */}
         {isOtpSubmited && isEmailSent &&
           <form onSubmit={onSubmitNewPassword} className="bg-slate-900 p-8 rounded-lg shaadow-lg w-96 text-sm">
             <h1 className="text-white text-2xl font-semibold text-center mb-4">New Password</h1>

@@ -10,7 +10,7 @@ const Login = () => {
 
     const navigate = useNavigate();
 
-    const { backendUrl, setIsLoggedIn , getUserData } = useContext(AppContent)
+    const { backendUrl, setIsLoggedIn, getUserData } = useContext(AppContent)
 
     const [state, setState] = useState('Signup');
     const [name, setName] = useState('');
@@ -24,7 +24,9 @@ const Login = () => {
 
             if (state === 'Signup') {
                 // const {data} = await axios.post(backendUrl + '/api/auth/register', { name, email, password })
-                const {data} = await axios.post(`${backendUrl}/api/auth/register`, { name, email, password })
+                const { data } = await axios.post(`${backendUrl}/api/auth/register`, { name, email, password }, {
+                    withCredentials: true
+                })
                 if (data.success) {
                     setIsLoggedIn(true)
                     getUserData()
@@ -35,7 +37,9 @@ const Login = () => {
                 }
             } else {
                 // const {data} = await axios.post(backendUrl + '/api/auth/login', { email, password })
-                const {data} = await axios.post(`${backendUrl}/api/auth/login`, { email, password })
+                const { data } = await axios.post(`${backendUrl}/api/auth/login`, { email, password }, {
+                    withCredentials: true
+                })
                 if (data.success) {
                     setIsLoggedIn(true)
                     getUserData()
